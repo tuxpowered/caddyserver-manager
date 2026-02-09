@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caddy Manager | Documentation</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --accent-primary: #ff4d6d;
+            --accent-secondary: #00f2ff;
+            --bg-dark: #0b0d17;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-muted: #94a3b8;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        .nav-link {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.75rem 0;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+            padding-left: 5px;
+        }
+
+        /* Main Content */
+        .content {
+            margin-left: var(--sidebar-width);
+            padding: 4rem;
+            max-width: 1200px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 4rem;
+        }
+
+        section {
+            margin-bottom: 6rem;
+        }
+
+        h2.section-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h2.section-title::before {
+            content: "";
+            width: 40px;
+            height: 4px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: #cbd5e1;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #94a3b8;
+        }
+
+        li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 77, 109, 0.1);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .code-block {
+            background: #05070a;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #d1d5db;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            white-space: pre;
+        }
+
+        footer {
+            margin-top: 8rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <h2>Documentation</h2>
+        <a href="#intro" class="nav-link">Getting Started</a>
+        <a href="#initialize" class="nav-link">Initialize Site Guide</a>
+        <a href="#port-forwarding" class="nav-link">Port Forwarding (Vector)</a>
+        <a href="#sites" class="nav-link">Sites & Domains</a>
+        <a href="#security" class="nav-link">Security Nucleus (PKI)</a>
+        <a href="#developer" class="nav-link">Developer Tools</a>
+
+        <h2 style="margin-top: 3rem;">Support</h2>
+        <a href="#" class="nav-link">Troubleshooting</a>
+        <a href="#" class="nav-link">GitHub Hub</a>
+    </aside>
+
+    <main class="content">
+        <header>
+            <h1>Caddy Manager</h1>
+            <p class="subtitle">Complete Technical Orchestration Guide</p>
+        </header>
+
+        <!-- INTRODUCTION -->
+        <section id="intro">
+            <h2 class="section-title">Getting Started</h2>
+            <div class="card">
+                <h3>System Overview</h3>
+                <p>Caddy Manager is a specialized web orchestration platform designed to manage <b>Caddy Server</b>
+                    instances with tactical precision. It provides a visual interface for dynamic configuration, traffic
+                    monitoring, and security management.</p>
+                <ul>
+                    <li><b>Frontend:</b> Powered by React 18, Vite, and tactical Tailwind CSS.</li>
+                    <li><b>Backend:</b> Node.js Express server acting as a secure Caddy Admin Proxy.</li>
+                    <li><b>Database:</b> SQLite provides a robust state repository for all management assets.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- INITIALIZE SITE -->
+        <section id="initialize">
+            <h2 class="section-title">Initialize Site</h2>
+            <p>The "Initialize Site" workflow is the core mechanism for deploying new services. It is divided into two
+                primary phases: <b>General Settings</b> and <b>Security Rules</b>.</p>
+
+            <div class="card">
+                <h3>Choose Site Blueprint</h3>
+                <p>Select a pre-configured template (Blueprint) specialized for your application type:</p>
+                <div class="grid">
+                    <div class="card">
+                        <h4 style="color: var(--accent-primary)">The Bridge</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase">Reverse Proxy
+                        </p>
+                        <p>Standard forwarding for Node.js, Python, or Go apps. Optimized for high-performance traffic
+                            relay.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: var(--accent-primary)">The Phantom</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase">Single Page
+                            App</p>
+                        <p>Specialized handling for React, Vue, or Angular SPA deployments with index fallback.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: var(--accent-primary)">The Artisan</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase">PHP / FastCGI
+                        </p>
+                        <p>Seamless integration for PHP-based applications via FastCGI (e.g., Laravel, WordPress).</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: var(--accent-primary)">The Vault</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase">Static Storage
+                        </p>
+                        <p>High-speed static file serving from local directories with optional browsing.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: var(--accent-primary)">The Architect</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase">Custom Config
+                        </p>
+                        <p>Full control over raw Caddy configuration for advanced routing and modules.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>General Settings</h3>
+                <ul>
+                    <li><b>Entry Hostname:</b> The public-facing domain (e.g., <code>cloud.example.com</code>).</li>
+                    <li><b>Upstream Target:</b> The internal destination where your app is running (e.g.,
+                        <code>localhost:8080</code>).
+                    </li>
+                    <li><b>Edge Request Rules (Headers):</b> Add or modify HTTP headers at the edge before traffic
+                        reaches your app.</li>
+                    <li><b>Identity Logo:</b> An optional URL for the site's logo to brand it within the Sites & Domains
+                        dashboard.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Security Rules</h3>
+                <ul>
+                    <li><b>Access Control:</b> List specific IP addresses to Whitelist or Block.</li>
+                    <li><b>DNS Provider:</b> Choose between Standard (HTTP) or DNS-01 providers for SSL.</li>
+                    <li><b>Traffic Normalization:</b> Redirect wizards for Host-only or WWW-only consistency.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PORT FORWARDING -->
+        <section id="port-forwarding">
+            <h2 class="section-title">Port Forwarding (Vector)</h2>
+            <p>Deploy Layer 4 streams to tunnel non-HTTP traffic (SSH, Databases, Game Servers) through your
+                orchestration node.</p>
+
+            <div class="card">
+                <h3>Choose Stream Blueprint</h3>
+                <p>Select a blueprint optimized for your network vector:</p>
+                <div class="grid">
+                    <div class="card">
+                        <h4 style="color: var(--accent-primary)">The Pipeline</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase">TCP Stream</p>
+                        <p>High-performance TCP relay for SSH, Databases (MySQL/PG), and custom binaries.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: var(--accent-primary)">The Signal</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase">UDP Stream</p>
+                        <p>Specialized UDP packet forwarding for game servers, real-time media, and DNS nodes.</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: var(--accent-primary)">The Multi-Vector</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase">Dual Channel
+                        </p>
+                        <p>Advanced dual-stack TCP/UDP proxying for complex tunneling and VPN protocols.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Vector Settings</h3>
+                <ul>
+                    <li><b>Vector Handle:</b> A human-readable name for monitoring (e.g., <code>SSH Jumpbox</code>).
+                    </li>
+                    <li><b>Listen Port:</b> The port on this server that will accept connections (e.g.,
+                        <code>2222</code>).
+                    </li>
+                    <li><b>Protocol:</b> Toggle between TCP, UDP, or both simultaneously.</li>
+                    <li><b>Upstream Host/Port:</b> The final destination for the traffic (e.g.,
+                        <code>10.0.0.5:22</code>).
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Access Rules (Security)</h3>
+                <p>Harden your network vectors with Layer 4 IP filtering:</p>
+                <ul>
+                    <li><b>Whitelist (Allowed) IPs:</b> Only these addresses can connect. If set, all other traffic is
+                        dropped.</li>
+                    <li><b>Blacklist (Blocked) IPs:</b> Specific addresses to reject. Takes precedence over the default
+                        allow-all state.</li>
+                    <li><b>Security Note:</b> IP changes are atomic and take effect immediately upon "Save Vector".</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SITES -->
+        <section id="sites">
+            <h2 class="section-title">Sites & Domains</h2>
+            <div class="card">
+                <h3>The Dashboard</h3>
+                <p>Real-time monitoring and lifecycle management for all initialized sites.</p>
+                <ul>
+                    <li><b>Node Identity:</b> Visual status pulses and branding icons for every hostname.</li>
+                    <li><b>Tactical Actions:</b> Edit, Renew SSL, or Delete sites with atomic precision.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECURITY -->
+        <section id="security">
+            <h2 class="section-title">Security Nucleus (PKI)</h2>
+            <div class="card">
+                <h3>Cryptographic Authorities</h3>
+                <p>Manage internal Certificate Authorities (CAs) for encrypted intranet orchestration.</p>
+                <ul>
+                    <li><b>Sync Engine:</b> Real-time synchronization with Caddy's <code>pki</code> module.</li>
+                    <li><b>Trust Protocols:</b> Automate the installation of root trust across host environments.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- DEVELOPER -->
+        <section id="developer">
+            <h2 class="section-title">Developer Tools</h2>
+            <div class="card">
+                <h3>Tactical Terminal</h3>
+                <p>Fully integrated web-based SSH terminal for direct shell interaction with the target host.</p>
+            </div>
+            <div class="card">
+                <h3>Caddy Admin Proxy</h3>
+                <p>All UI actions are proxied through a hardened Node.js backend to Caddy's Admin API on
+                    <code>localhost:2019</code>.
+                </p>
+            </div>
+        </section>
+
+        <footer>
+            Caddy Manager | Technical Orchestration Documentation | © 2026 Lyarinet
+        </footer>
+    </main>
+
+</body>
+
+</html>

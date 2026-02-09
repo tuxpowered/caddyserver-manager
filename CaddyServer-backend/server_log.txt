@@ -1,0 +1,36 @@
+[dotenv@17.2.3] injecting env (2) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[TERMINAL] WebSocket terminal server ready on /terminal
+Connected to SQLite database.
+[AUTH] Default admin credentials initialized
+Backend Middleware running on http://localhost:4000
+WebSocket Terminal available at ws://localhost:${PORT}/terminal
+Connected to SQLite database.
+[STARTUP] Caddy is ready.
+[SYNC] Found 18 domains, 1 streams, and 12 settings in DB
+[SYNC] Domain hosts: secure.local, lyaritech.cloud, ten.lyaritech.cloud, a.lyaritech.cloud, bogiman.lyaritech.cloud, isp.lyaritech.cloud, team.lyaritech.cloud, any.lyaritech.cloud, word.lyaritech.cloud, add.lyaritech.cloud, aapnel.lyaritech.cloud, vps.lyaritech.cloud, connect.local, bk.lyaritech.cloud, files.lyaritech.cloud, 123.lyaritech.cloud, blocked.local, bako.lyaritech.cloud
+[MAP] Processing host: secure.local (Template: proxy, Auth: false)
+[MAP] Processing host: lyaritech.cloud (Template: proxy, Auth: false)
+[MAP] Processing host: ten.lyaritech.cloud (Template: proxy, Auth: true)
+[MAP] Processing host: a.lyaritech.cloud (Template: static, Auth: false)
+[MAP] Processing host: bogiman.lyaritech.cloud (Template: static, Auth: true)
+[MAP] Processing host: isp.lyaritech.cloud (Template: proxy, Auth: false)
+[MAP] Processing host: team.lyaritech.cloud (Template: proxy, Auth: false)
+[MAP] Processing host: any.lyaritech.cloud (Template: proxy, Auth: false)
+[MAP] Processing host: word.lyaritech.cloud (Template: proxy, Auth: false)
+[MAP] Processing host: add.lyaritech.cloud (Template: proxy, Auth: true)
+[MAP] Processing host: aapnel.lyaritech.cloud (Template: proxy, Auth: true)
+[MAP] Processing host: vps.lyaritech.cloud (Template: static, Auth: false)
+[MAP] Processing host: connect.local (Template: proxy, Auth: false)
+[MAP] Processing host: bk.lyaritech.cloud (Template: proxy, Auth: false)
+[MAP] Processing host: files.lyaritech.cloud (Template: static, Auth: false)
+[MAP] Processing host: 123.lyaritech.cloud (Template: proxy, Auth: false)
+[MAP] Processing host: blocked.local (Template: proxy, Auth: false)
+[MAP] Processing host: bako.lyaritech.cloud (Template: proxy, Auth: false)
+[SYNC] Under Attack Mode is ACTIVE. Injecting emergency layer.
+[SYNC] Final Config to Load (Summary): {
+  apps: [ 'http', 'tls', 'pki', 'layer4' ],
+  http_routes: 22,
+  layer4_servers: 1
+}
+[SYNC] Successfully reloaded Caddy configuration.
+[STARTUP] Initial sync completed successfully.

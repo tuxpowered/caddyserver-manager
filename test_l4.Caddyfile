@@ -1,0 +1,21 @@
+{
+    admin off
+}
+
+layer4 {
+    servers {
+        test {
+            listen :9999
+            routes {
+                @allow {
+                    remote_ip 127.0.0.1
+                }
+                handle @allow {
+                    proxy {
+                        to 127.0.0.1:22
+                    }
+                }
+            }
+        }
+    }
+}

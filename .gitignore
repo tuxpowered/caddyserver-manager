@@ -1,0 +1,36 @@
+# Mobile App
+#CaddyServer-mobile/
+android-sdk/
+sdk/
+sdk_v2/
+sdk_v3/
+flutter_sdk_new/
+clean_mobile_build/
+flutter_sdk_new/
+
+# Dependencies
+node_modules/
+.npm/
+
+# Environment
+.env
+*.log
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# built
+deploy.sh
+build_mobile.sh
+build_web.sh
+build_desktop.sh
+build_linux.sh
+
+# 

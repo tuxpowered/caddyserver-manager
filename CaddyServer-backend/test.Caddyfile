@@ -1,0 +1,3 @@
+:80 {
+    redir https://example.com
+}

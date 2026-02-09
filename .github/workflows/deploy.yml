@@ -1,0 +1,73 @@
+name: Deploy Caddyserver WebUI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Production Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Terminal Sync via SSH
+        uses: appleboy/ssh-action@v0.1.8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          envs: GITHUB_TOKEN
+          script: |
+            set -euo pipefail
+            echo "🚀 Initiating Caddyserver WebUI Deployment Protocol..."
+
+            # Target Matrix Directory (Absolute path on remote server)
+            TARGET_DIR="/home/fida/project/CaddyServer-web-ui"
+            mkdir -p "$TARGET_DIR"
+            cd "$TARGET_DIR"
+
+            # Sync Repository State
+            REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}"
+            
+            if [ -d .git ]; then
+              echo "📡 Pulling latest source updates..."
+              git remote set-url origin "$REPO_URL"
+              git fetch --all --prune
+              git reset --hard origin/main
+            else
+              echo "🧬 Cloning fresh engine core..."
+              git clone "$REPO_URL" .
+            fi
+
+            # Environment Stabilization
+            echo "⚙️  Stabilizing permissions..."
+            chmod +x install.sh start.sh
+            
+            # Install Dependencies (Modules & Engines)
+            if ! command -v caddy &> /dev/null || ! caddy list-modules | grep -q "layer4"; then
+              echo "🛠  Running Unified Installer (Detected missing dependencies)..."
+              bash ./install.sh
+            fi
+
+            # Node Dependency Refresh
+            echo "📦 Refreshing module dependencies..."
+            cd "$TARGET_DIR/CaddyServer-backend" && npm install --omit=dev
+            cd "$TARGET_DIR/CaddyServer-frontend" && npm install
+
+            # Background Orchestration
+            echo "⚡ Relaunching Caddyserver WebUI Dashboard..."
+            cd "$TARGET_DIR"
+            pkill -f "bash ./start.sh" || true
+            
+            # Launch with nohup to survive session disconnect
+            nohup bash ./start.sh > ~/webui_runtime.log 2>&1 &
+            
+            echo "✨ DEPLOYMENT SUCCESSFUL"
+            echo "------------------------------------------------"
+            echo "Engine Log: tail -f ~/webui_runtime.log"
+            echo "------------------------------------------------"
