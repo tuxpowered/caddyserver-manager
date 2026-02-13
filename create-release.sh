@@ -1,5 +1,5 @@
 #!/bin/bash
-# Caddy Manager - Release Tagging Utility
+# Caddy Manager - Local Release Packager
 # Usage: ./create-release.sh v1.0.0
 
 VERSION=$1
@@ -10,43 +10,31 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
-# Ensure version starts with 'v'
-if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    echo "⚠️ Warning: Version should typically follow vX.Y.Z format (e.g., v1.0.0)"
-    read -p "Do you want to proceed with '$VERSION'? (y/n): " PROCEED
-    if [[ "$PROCEED" != "y" ]]; then
-        exit 1
-    fi
-fi
+echo "📦 Packaging Caddy Manager $VERSION locally..."
 
-echo "🚀 Preparing release $VERSION..."
+# Create releases directory if it doesn't exist
+mkdir -p releases
 
-# Check if tag already exists
-if git rev-parse "$VERSION" >/dev/null 2>&1; then
-    echo "❌ Error: Tag $VERSION already exists."
-    exit 1
-fi
+OUTPUT_FILE="releases/caddy-manager-$VERSION.tar.gz"
 
-# Create the tag
-echo "🏷 Creating git tag $VERSION..."
-if ! git tag -a "$VERSION" -m "Release $VERSION"; then
-    echo "❌ Error: Failed to create tag. Make sure your git identity is set."
-    exit 1
-fi
+# Package the project, excluding unnecessary files
+tar -czf "$OUTPUT_FILE" \
+    --exclude='.git' \
+    --exclude='node_modules' \
+    --exclude='CaddyServer-backend/node_modules' \
+    --exclude='CaddyServer-frontend/node_modules' \
+    --exclude='CaddyServer-mobile' \
+    --exclude='*.db' \
+    --exclude='*.log' \
+    --exclude='releases' \
+    .
 
-# Ask if user wants to push
-read -p "📡 Push tag to origin now? (y/n): " PUSH_NOW
-if [[ "$PUSH_NOW" == "y" ]]; then
-    if git push origin "$VERSION"; then
-        echo "✅ Success! Version $VERSION has been tagged and pushed."
-        echo "📦 GitHub Actions will now build and package the release."
-        echo "🔗 View progress at: https://github.com/$(git remote get-url origin | sed -E 's/.*github.com[:\/](.*).git/\1/')/actions"
-    else
-        echo "❌ Error: Failed to push tag to origin."
-        echo "You can try pushing manually: git push origin $VERSION"
-        exit 1
-    fi
+if [ $? -eq 0 ]; then
+    echo "✅ Success! Local release package created."
+    echo "� File: $OUTPUT_FILE"
+    echo "⚖️  Size: $(du -sh "$OUTPUT_FILE" | cut -f1)"
+    echo "📦 You can now manually upload this file to GitHub Releases or distribute it."
 else
-    echo "✅ Success! Version $VERSION has been tagged locally."
-    echo "👉 To trigger the release, run: git push origin $VERSION"
+    echo "❌ Error: Failed to create package."
+    exit 1
 fi
