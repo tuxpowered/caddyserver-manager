@@ -21,20 +21,6 @@ fi
 
 echo "🚀 Preparing release $VERSION..."
 
-# Ensure git identity is set
-if ! git config user.name > /dev/null || ! git config user.email > /dev/null; then
-    echo "⚠️ Warning: Git identity is not set. Attempting to use global config..."
-    # If root, try to borrow from the main user if possible, or just fail with instructions
-    if [[ "$EUID" -eq 0 ]]; then
-        echo "❌ Error: Running as root and git identity is not configured for root."
-        echo "Please run:"
-        echo "  git config user.email \"your@email.com\""
-        echo "  git config user.name \"Your Name\""
-        echo "Or run this script as your normal user."
-        exit 1
-    fi
-fi
-
 # Check if tag already exists
 if git rev-parse "$VERSION" >/dev/null 2>&1; then
     echo "❌ Error: Tag $VERSION already exists."
@@ -44,7 +30,7 @@ fi
 # Create the tag
 echo "🏷 Creating git tag $VERSION..."
 if ! git tag -a "$VERSION" -m "Release $VERSION"; then
-    echo "❌ Error: Failed to create tag. Check your git configuration."
+    echo "❌ Error: Failed to create tag. Make sure your git identity is set."
     exit 1
 fi
 
