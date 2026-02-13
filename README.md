@@ -69,7 +69,12 @@ Manipulate incoming and outgoing headers without editing configuration files. Th
 ---
 
 
+
 ##  Preview
+
+
+[▶ Watch Video](images/video.mp4)
+
 
 ### Dashboard Overview
 ![Dashboard Overview](images/dashboard-main.png)
