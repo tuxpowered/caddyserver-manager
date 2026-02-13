@@ -66,6 +66,40 @@ Manipulate incoming and outgoing headers without editing configuration files. Th
 
 ---
 
+---
+
+##  Preview
+
+````carousel
+![Dashboard Overview](./images/screencapture-10-240-150-149-3000-2026-02-13-11_03_58.png)
+<!-- slide -->
+![Site Details](images/screencapture-10-240-150-149-3000-2026-02-13-11_06_03.png)
+<!-- slide -->
+![Terminal Access](./images/Screenshot%202026-02-13%20at%2011.08.37%20AM.png)
+<!-- slide -->
+![Screenshot 1](./images/Screenshot%202026-02-13%20at%2011.02.45%20AM.png)
+<!-- slide -->
+![Screenshot 2](./images/Screenshot%202026-02-13%20at%2011.03.33%20AM.png)
+<!-- slide -->
+![Screenshot 3](./images/Screenshot%202026-02-13%20at%2011.05.05%20AM.png)
+<!-- slide -->
+![Screenshot 4](./images/Screenshot%202026-02-13%20at%2011.05.33%20AM.png)
+<!-- slide -->
+![Screenshot 5](./images/Screenshot%202026-02-13%20at%2011.05.49%20AM.png)
+<!-- slide -->
+![Screenshot 6](./images/Screenshot%202026-02-13%20at%2011.06.26%20AM.png)
+<!-- slide -->
+![Screenshot 7](./images/Screenshot%202026-02-13%20at%2011.06.49%20AM.png)
+<!-- slide -->
+![Screenshot 8](./images/Screenshot%202026-02-13%20at%2011.07.02%20AM.png)
+<!-- slide -->
+![Screenshot 9](./images/Screenshot%202026-02-13%20at%2011.07.23%20AM.png)
+<!-- slide -->
+![Screenshot 10](./images/Screenshot%202026-02-13%20at%2011.07.47%20AM.png)
+````
+
+---
+
 ##  Quick Start
 
 ### 1. Unified Installation
@@ -84,14 +118,23 @@ chmod +x install-service.sh
 ./install-service.sh
 ```
 
-### 3. Launching the Manager
+### 3. Login Credentials
+Once the service is running, access the dashboard and use the following default credentials:
+
+- **Username**: `admin`
+- **Password**: `caddy123`
+
+> [!IMPORTANT]
+> Change the default password immediately after your first login for security.
+
+### 4. Launching the Manager
 Run the orchestration script to start or check the service status (does not block terminal):
 
 ```bash
 ./start.sh
 ```
 
-### 4. Useful Service Commands
+### 5. Useful Service Commands
 
 - **Check logs**: `sudo journalctl -u caddymanager -f`
 - **Stop service**: `sudo systemctl stop caddymanager`
