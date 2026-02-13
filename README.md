@@ -33,7 +33,7 @@ The project is divided into three primary layers:
 
 ---
 
-## 🎨 Design & Aesthetic
+##  Design & Aesthetic
 
 Caddy Manager is built on a custom design system that prioritizes visual depth and user immersion.
 
@@ -44,7 +44,7 @@ Caddy Manager is built on a custom design system that prioritizes visual depth a
 
 ---
 
-## 🛠 Advanced Orchestration (Admin Panel)
+##  Advanced Orchestration (Admin Panel)
 
 The Caddy Manager's Admin Panel provides enterprise-grade orchestration features directly through the Domain Matrix.
 
@@ -69,69 +69,69 @@ Manipulate incoming and outgoing headers without editing configuration files. Th
 ---
 
 
-## 📸 Preview
+##  Preview
 
-### 🖥 Dashboard Overview
+### Dashboard Overview
 ![Dashboard Overview](images/dashboard-main.png)
 
 ---
 
-### 🌐 Site Details
+### Site Details
 ![Site Details](images/site-configuration.png)
 
 ---
 
-### 🖥 Terminal Access
+### Terminal Access
 ![Terminal Access](images/terminal-view.png)
 
 ---
 
-### � Authentication
+### Authentication
 ![Authentication](images/auth-login.png)
 
 ---
 
-### � Dashboard Stats
+### Dashboard Stats
 ![Dashboard Stats](images/dashboard-stats.png)
 
 ---
 
-### � Domain List
+### Domain List
 ![Domain List](images/domain-list.png)
 
 ---
 
-### � SSL Settings
+### SSL Settings
 ![SSL Settings](images/ssl-settings.png)
 
 ---
 
-### ⚙️ Advanced Settings
+### Advanced Settings
 ![Advanced Settings](images/advanced-settings.png)
 
 ---
 
-### � Proxy Rules
+### Proxy Rules
 ![Proxy Rules](images/proxy-rules.png)
 
 ---
 
-### ⚖️ Load Balancing
+### Load Balancing
 ![Load Balancing](images/load-balancing.png)
 
 ---
 
-### � Health Checks
+### Health Checks
 ![Health Checks](images/health-checks.png)
 
 ---
 
-### � Header Rules
+### Header Rules
 ![Header Rules](images/header-rules.png)
 
 ---
 
-### � Caddy Configuration
+### Caddy Configuration
 ![Caddy Configuration](images/caddy-config.png)
 
 ---
