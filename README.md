@@ -72,67 +72,67 @@ Manipulate incoming and outgoing headers without editing configuration files. Th
 ## 📸 Preview
 
 ### 🖥 Dashboard Overview
-![Dashboard Overview](images/screencapture-10-240-150-149-3000-2026-02-13-11_03_58.png)
+![Dashboard Overview](images/dashboard-main.png)
 
 ---
 
 ### 🌐 Site Details
-![Site Details](images/screencapture-10-240-150-149-3000-2026-02-13-11_06_03.png)
+![Site Details](images/site-configuration.png)
 
 ---
 
 ### 🖥 Terminal Access
-![Terminal Access](images/Screenshot%202026-02-13%20at%2011.08.37%20AM.png)
+![Terminal Access](images/terminal-view.png)
 
 ---
 
-### 📷 Screenshot 1
-![Screenshot 1](images/Screenshot%202026-02-13%20at%2011.02.45%20AM.png)
+### � Authentication
+![Authentication](images/auth-login.png)
 
 ---
 
-### 📷 Screenshot 2
-![Screenshot 2](images/Screenshot%202026-02-13%20at%2011.03.33%20AM.png)
+### � Dashboard Stats
+![Dashboard Stats](images/dashboard-stats.png)
 
 ---
 
-### 📷 Screenshot 3
-![Screenshot 3](images/Screenshot%202026-02-13%20at%2011.05.05%20AM.png)
+### � Domain List
+![Domain List](images/domain-list.png)
 
 ---
 
-### 📷 Screenshot 4
-![Screenshot 4](images/Screenshot%202026-02-13%20at%2011.05.33%20AM.png)
+### � SSL Settings
+![SSL Settings](images/ssl-settings.png)
 
 ---
 
-### 📷 Screenshot 5
-![Screenshot 5](images/Screenshot%202026-02-13%20at%2011.05.49%20AM.png)
+### ⚙️ Advanced Settings
+![Advanced Settings](images/advanced-settings.png)
 
 ---
 
-### 📷 Screenshot 6
-![Screenshot 6](images/Screenshot%202026-02-13%20at%2011.06.26%20AM.png)
+### � Proxy Rules
+![Proxy Rules](images/proxy-rules.png)
 
 ---
 
-### 📷 Screenshot 7
-![Screenshot 7](images/Screenshot%202026-02-13%20at%2011.06.49%20AM.png)
+### ⚖️ Load Balancing
+![Load Balancing](images/load-balancing.png)
 
 ---
 
-### 📷 Screenshot 8
-![Screenshot 8](images/Screenshot%202026-02-13%20at%2011.07.02%20AM.png)
+### � Health Checks
+![Health Checks](images/health-checks.png)
 
 ---
 
-### 📷 Screenshot 9
-![Screenshot 9](images/Screenshot%202026-02-13%20at%2011.07.23%20AM.png)
+### � Header Rules
+![Header Rules](images/header-rules.png)
 
 ---
 
-### 📷 Screenshot 10
-![Screenshot 10](images/Screenshot%202026-02-13%20at%2011.07.47%20AM.png)
+### � Caddy Configuration
+![Caddy Configuration](images/caddy-config.png)
 
 ---
 
