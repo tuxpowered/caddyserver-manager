@@ -1,5 +1,5 @@
 # Mobile App
-#CaddyServer-mobile/
+CaddyServer-mobile/
 android-sdk/
 sdk/
 sdk_v2/
@@ -32,5 +32,6 @@ build_mobile.sh
 build_web.sh
 build_desktop.sh
 build_linux.sh
+
 
 # 

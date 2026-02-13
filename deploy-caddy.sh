@@ -7,7 +7,7 @@ echo "🔄 Deploying custom Caddy binary with layer4 module..."
 sudo cp /usr/bin/caddy /usr/bin/caddy.backup-$(date +%Y%m%d-%H%M%S)
 
 # Deploy new caddy
-sudo cp /home/project/CaddyServer-web-ui/caddy /usr/bin/caddy
+sudo cp "$(pwd)/caddy" /usr/bin/caddy
 sudo chmod +x /usr/bin/caddy
 sudo setcap cap_net_bind_service=+ep /usr/bin/caddy
 

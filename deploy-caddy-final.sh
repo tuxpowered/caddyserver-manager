@@ -19,7 +19,7 @@ cp /usr/bin/caddy /usr/bin/caddy.backup-$(date +%Y%m%d-%H%M%S) 2>/dev/null || tr
 
 # Deploy new caddy
 echo "📦 Copying new Caddy binary..."
-cp /home/project/CaddyServer-web-ui/caddy /usr/bin/caddy
+cp "$PROJECT_ROOT/caddy" /usr/bin/caddy
 chmod +x /usr/bin/caddy
 setcap cap_net_bind_service=+ep /usr/bin/caddy
 
