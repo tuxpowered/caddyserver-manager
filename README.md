@@ -73,7 +73,7 @@ Manipulate incoming and outgoing headers without editing configuration files. Th
 ##  Preview
 
 
-![Demo Preview](images/video.gif)
+![Demo Preview](images/demo.gif)
 
 
 ### Dashboard Overview
