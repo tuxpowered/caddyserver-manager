@@ -570,7 +570,7 @@ function App() {
                   <a href={globalSettings.github_url} target="_blank" rel="noopener noreferrer" className={clsx("p-2 rounded-full transition-colors", theme === 'manager' || theme === 'flat' ? "hover:bg-[var(--surface-bg)]" : "hover:bg-white/5")}>
                     <Github className={clsx("w-5 h-5", theme === 'manager' || theme === 'flat' ? "text-[var(--muted-text)] hover:text-[var(--base-text)]" : "text-white/40 hover:text-white")} />
                   </a>
-                  <p className={clsx("text-[9px] font-black uppercase tracking-widest", theme === 'manager' || theme === 'flat' ? "text-[var(--muted-text)]" : "text-white/40")}>v2.0.3 Build</p>
+                  <p className={clsx("text-[9px] font-black uppercase tracking-widest", theme === 'manager' || theme === 'flat' ? "text-[var(--muted-text)]" : "text-white/40")}>v2.0.4 Build</p>
                 </div>
               )}
               <p className={clsx(

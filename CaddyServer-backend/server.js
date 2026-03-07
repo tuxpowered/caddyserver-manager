@@ -32,7 +32,7 @@ app.get('/api/ping', (req, res) => res.json({ status: 'ok', message: 'pong', tim
 app.get('/api/system/discovery', (req, res) => {
     res.json({
         name: 'Caddy Manager',
-        version: '2.0.3',
+        version: '2.0.4',
         platform: process.platform,
         features: ['domains', 'terminal', 'ssl', 'deployment'],
         auth_required: true
@@ -1322,7 +1322,7 @@ app.get('/api/settings', (req, res) => {
 app.get('/api/system/status', (req, res) => {
     res.json({
         name: 'Caddy Manager',
-        version: '2.0.3',
+        version: '2.0.4',
         platform: os.platform(),
         arch: os.arch(),
         cpu: os.cpus().length,
