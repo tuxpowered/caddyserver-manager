@@ -121,7 +121,7 @@ fi
 # Build Caddy with Layer4 and all required DNS modules
 echo "🏗 Building Caddy with Layer4 and 15+ DNS modules..."
 # Explicitly pass PATH to ensure xcaddy finds the correct go binary
-PATH=/usr/local/go/bin:$PATH xcaddy build v2.10.2 \
+PATH=/usr/local/go/bin:$PATH xcaddy build v2.11.2 \
     --with github.com/mholt/caddy-l4 \
     --with github.com/caddy-dns/cloudns \
     --with github.com/caddy-dns/cloudflare \
@@ -143,7 +143,7 @@ PATH=/usr/local/go/bin:$PATH xcaddy build v2.10.2 \
 sudo chmod +x ./caddy_custom
 sudo mv ./caddy_custom /usr/bin/caddy
 sudo setcap cap_net_bind_service=+ep /usr/bin/caddy
-echo "✅ Custom Caddy (v2.10.2 with Layer4 & DNS Suite) installed to /usr/bin/caddy"
+echo "✅ Custom Caddy (v2.11.2 with Layer4 & DNS Suite) installed to /usr/bin/caddy"
 
 # 6. Install Project Dependencies
 echo "🏗 Installing Project Dependencies..."
