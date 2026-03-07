@@ -63,95 +63,42 @@ db.serialize(() => {
 
   // Migration: Add columns if they don't exist
   db.all("PRAGMA table_info(domains)", (err, columns) => {
-    if (err) return;
-    const hasLogo = columns.some(c => c.name === 'logo');
-    if (!hasLogo) {
-      db.run("ALTER TABLE domains ADD COLUMN logo TEXT");
-    }
-    const hasDnsProvider = columns.some(c => c.name === 'dns_provider');
-    if (!hasDnsProvider) {
-      db.run("ALTER TABLE domains ADD COLUMN dns_provider TEXT");
-    }
-    const hasDnsData = columns.some(c => c.name === 'dns_data');
-    if (!hasDnsData) {
-      db.run("ALTER TABLE domains ADD COLUMN dns_data TEXT");
-    }
-    const hasDnsCustom = columns.some(c => c.name === 'dns_provider_custom');
-    if (!hasDnsCustom) {
-      db.run("ALTER TABLE domains ADD COLUMN dns_provider_custom TEXT");
-    }
-    const hasForceSsl = columns.some(c => c.name === 'force_ssl');
-    if (!hasForceSsl) {
-      db.run("ALTER TABLE domains ADD COLUMN force_ssl INTEGER DEFAULT 1");
-    }
-    const hasHttp2 = columns.some(c => c.name === 'http2_enabled');
-    if (!hasHttp2) {
-      db.run("ALTER TABLE domains ADD COLUMN http2_enabled INTEGER DEFAULT 1");
-    }
-    const hasHsts = columns.some(c => c.name === 'hsts_enabled');
-    if (!hasHsts) {
-      db.run("ALTER TABLE domains ADD COLUMN hsts_enabled INTEGER DEFAULT 0");
-    }
-    const hasHstsSubdomains = columns.some(c => c.name === 'hsts_subdomains');
-    if (!hasHstsSubdomains) {
-      db.run("ALTER TABLE domains ADD COLUMN hsts_subdomains INTEGER DEFAULT 0");
-    }
-    const hasCustomConfig = columns.some(c => c.name === 'custom_config');
-    if (!hasCustomConfig) {
-      db.run("ALTER TABLE domains ADD COLUMN custom_config TEXT");
-    }
-    const hasAllowedIps = columns.some(c => c.name === 'allowed_ips');
-    if (!hasAllowedIps) {
-      db.run("ALTER TABLE domains ADD COLUMN allowed_ips TEXT DEFAULT ''");
-    }
-    const hasTemplate = columns.some(c => c.name === 'template');
-    if (!hasTemplate) {
-      db.run("ALTER TABLE domains ADD COLUMN template TEXT DEFAULT 'proxy'");
-    }
-    const hasCanonicalType = columns.some(c => c.name === 'canonical_type');
-    if (!hasCanonicalType) {
-      db.run("ALTER TABLE domains ADD COLUMN canonical_type TEXT DEFAULT 'off'");
-    }
-    const hasHeaderRules = columns.some(c => c.name === 'header_rules');
-    if (!hasHeaderRules) {
-      db.run("ALTER TABLE domains ADD COLUMN header_rules TEXT DEFAULT '[]'");
-    }
-    const hasLbPolicy = columns.some(c => c.name === 'lb_policy');
-    if (!hasLbPolicy) {
-      db.run("ALTER TABLE domains ADD COLUMN lb_policy TEXT DEFAULT 'random'");
-    }
-    const hasHealthCheckEnabled = columns.some(c => c.name === 'health_check_enabled');
-    if (!hasHealthCheckEnabled) {
-      db.run("ALTER TABLE domains ADD COLUMN health_check_enabled INTEGER DEFAULT 0");
-    }
-    const hasFileBrowseEnabled = columns.some(c => c.name === 'file_browse_enabled');
-    if (!hasFileBrowseEnabled) {
-      db.run("ALTER TABLE domains ADD COLUMN file_browse_enabled INTEGER DEFAULT 1");
-    }
-    const hasUpstreamProto = columns.some(c => c.name === 'upstream_proto');
-    if (!hasUpstreamProto) {
-      db.run("ALTER TABLE domains ADD COLUMN upstream_proto TEXT DEFAULT 'http'");
-    }
-    const hasAuthUser = columns.some(c => c.name === 'auth_user');
-    if (!hasAuthUser) {
-      db.run("ALTER TABLE domains ADD COLUMN auth_user TEXT");
-    }
-    const hasAuthPass = columns.some(c => c.name === 'auth_pass');
-    if (!hasAuthPass) {
-      db.run("ALTER TABLE domains ADD COLUMN auth_pass TEXT");
-    }
-    const hasEnableLogging = columns.some(c => c.name === 'enable_logging');
-    if (!hasEnableLogging) {
-      db.run("ALTER TABLE domains ADD COLUMN enable_logging INTEGER DEFAULT 0");
-    }
-    const hasBlockedIps = columns.some(c => c.name === 'blocked_ips');
-    if (!hasBlockedIps) {
-      db.run("ALTER TABLE domains ADD COLUMN blocked_ips TEXT DEFAULT ''");
-    }
-    const hasHealthCheckPath = columns.some(c => c.name === 'health_check_path');
-    if (!hasHealthCheckPath) {
-      db.run("ALTER TABLE domains ADD COLUMN health_check_path TEXT DEFAULT '/'");
-    }
+    if (err) return console.error('[DB] Failed to get table info for domains:', err.message);
+
+    const alterTable = (column, type, defaultValue = null) => {
+      const hasColumn = columns.some(c => c.name === column);
+      if (!hasColumn) {
+        let query = `ALTER TABLE domains ADD COLUMN ${column} ${type}`;
+        if (defaultValue !== null) query += ` DEFAULT ${defaultValue}`;
+        db.run(query, (err) => {
+          if (err) console.error(`[DB] Migration failed: ${query} -`, err.message);
+          else console.log(`[DB] Successfully added column ${column} to domains table.`);
+        });
+      }
+    };
+
+    alterTable('logo', 'TEXT');
+    alterTable('dns_provider', 'TEXT');
+    alterTable('dns_data', 'TEXT');
+    alterTable('dns_provider_custom', 'TEXT');
+    alterTable('force_ssl', 'INTEGER', 1);
+    alterTable('http2_enabled', 'INTEGER', 1);
+    alterTable('hsts_enabled', 'INTEGER', 0);
+    alterTable('hsts_subdomains', 'INTEGER', 0);
+    alterTable('custom_config', 'TEXT');
+    alterTable('allowed_ips', 'TEXT', "''");
+    alterTable('template', 'TEXT', "'proxy'");
+    alterTable('canonical_type', 'TEXT', "'off'");
+    alterTable('header_rules', 'TEXT', "'[]'");
+    alterTable('lb_policy', 'TEXT', "'random'");
+    alterTable('health_check_enabled', 'INTEGER', 0);
+    alterTable('file_browse_enabled', 'INTEGER', 1);
+    alterTable('upstream_proto', 'TEXT', "'http'");
+    alterTable('auth_user', 'TEXT');
+    alterTable('auth_pass', 'TEXT');
+    alterTable('enable_logging', 'INTEGER', 0);
+    alterTable('blocked_ips', 'TEXT', "''");
+    alterTable('health_check_path', 'TEXT', "'/'");
   });
 
   // Migration for streams

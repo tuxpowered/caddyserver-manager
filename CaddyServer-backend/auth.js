@@ -141,14 +141,15 @@ const setupAuthRoutes = (app) => {
     app.get('/api/auth/verify', (req, res) => {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(401).json({ valid: false });
+            return res.status(401).json({ valid: false, error: 'No token provided' });
         }
 
         const token = authHeader.split(' ')[1];
         const decoded = verifyToken(token);
 
         if (!decoded) {
-            return res.status(401).json({ valid: false });
+            console.log('[AUTH] Token verification failed for /api/auth/verify');
+            return res.status(401).json({ valid: false, error: 'Invalid or expired token' });
         }
 
         res.json({ valid: true, user: decoded });

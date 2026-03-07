@@ -32,7 +32,7 @@ app.get('/api/ping', (req, res) => res.json({ status: 'ok', message: 'pong', tim
 app.get('/api/system/discovery', (req, res) => {
     res.json({
         name: 'Caddy Manager',
-        version: '1.0.0',
+        version: '2.0.0',
         platform: process.platform,
         features: ['domains', 'terminal', 'ssl', 'deployment'],
         auth_required: true
@@ -1037,7 +1037,10 @@ app.delete('/api/configs/:id', (req, res) => {
 // --- Domains ---
 app.get('/api/domains', (req, res) => {
     db.all('SELECT * FROM domains', [], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
+        if (err) {
+            console.error('[DOMAINS] Failed to fetch domains:', err.message);
+            return res.status(500).json({ error: 'Database error while fetching domains', details: err.message });
+        }
         res.json(rows.map(deserialize));
     });
 });
@@ -1055,9 +1058,13 @@ app.post('/api/domains', (req, res) => {
             'INSERT INTO domains (host, upstream, logo, ssl, template, canonical_type, upstream_proto, auth_user, auth_pass, enable_logging, dns_provider, dns_data, dns_provider_custom, force_ssl, http2_enabled, hsts_enabled, hsts_subdomains, blocked_ips, allowed_ips, lb_policy, health_check_enabled, health_check_path, file_browse_enabled, header_rules, custom_config) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [host, upstream, logo, ssl ? 1 : 0, template || 'proxy', canonical_type || 'off', upstream_proto || 'http', auth_user || null, auth_pass || null, enable_logging ? 1 : 0, req.body.dns_provider || null, req.body.dns_data ? JSON.stringify(req.body.dns_data) : null, req.body.dns_provider_custom || null, force_ssl !== undefined ? (force_ssl ? 1 : 0) : 1, http2_enabled !== undefined ? (http2_enabled ? 1 : 0) : 1, hsts_enabled ? 1 : 0, hsts_subdomains ? 1 : 0, blocked_ips || '', allowed_ips || '', lb_policy || 'random', health_check_enabled ? 1 : 0, health_check_path || '/', file_browse_enabled !== undefined ? (file_browse_enabled ? 1 : 0) : 1, header_rules ? JSON.stringify(header_rules) : '[]', custom_config || ''],
             async function (err) {
-                if (err) return res.status(500).json({ error: err.message });
-                try { await syncDomainsWithCaddy(); } catch (e) { console.error('[DOMAINS] Sync failed:', e); }
+                if (err) {
+                    console.error('[DOMAINS] Failed to insert domain:', err.message);
+                    return res.status(500).json({ error: 'Database error while saving domain', details: err.message });
+                }
+                try { await syncDomainsWithCaddy(); } catch (e) { console.error('[DOMAINS] Sync failed after insert:', e.message); }
                 db.get('SELECT * FROM domains WHERE id = ?', [this.lastID], (err, row) => {
+                    if (err) return res.status(500).json({ error: 'Failed to retrieve saved domain' });
                     res.json(deserialize(row));
                 });
             }
