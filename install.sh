@@ -50,6 +50,17 @@ echo "🛠 Installing system utilities and build tools..."
 sudo apt-get remove -y golang-go || true
 $INSTALL_CMD curl debian-keyring debian-archive-keyring apt-transport-https build-essential python3 g++ make git bc psmisc
 
+# Ensure project files exist (Auto-clone if run via curl | bash)
+if [[ ! -f "entrypoint.sh" || ! -d "CaddyServer-backend" ]]; then
+    INSTALL_DIR="/opt/Caddy-Manager"
+    echo "📥 Project files not found locally. Cloning to $INSTALL_DIR..."
+    sudo rm -rf "$INSTALL_DIR"
+    sudo git clone https://github.com/lyarinet/Caddy-Manager.git "$INSTALL_DIR"
+    sudo chown -R $(whoami):$(whoami) "$INSTALL_DIR"
+    cd "$INSTALL_DIR"
+    PROJECT_ROOT=$(pwd)
+fi
+
 # 3. Install/Update Go (Ensure >= 1.22)
 install_go() {
     echo "🟢 Installing/Updating Go to v1.22.5..."

@@ -27,7 +27,7 @@ jobs:
             echo "🚀 Initiating Caddyserver WebUI Deployment Protocol..."
 
             # Target Matrix Directory (Absolute path on remote server)
-            TARGET_DIR="/home/fida/project/CaddyServer-web-ui"
+            TARGET_DIR="/opt/Caddy-Manager"
             mkdir -p "$TARGET_DIR"
             cd "$TARGET_DIR"
 
