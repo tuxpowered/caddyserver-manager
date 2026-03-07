@@ -55,7 +55,7 @@ if [[ ! -f "entrypoint.sh" || ! -d "CaddyServer-backend" ]]; then
     INSTALL_DIR="/opt/Caddy-Manager"
     echo "📥 Project files not found locally. Cloning to $INSTALL_DIR..."
     sudo rm -rf "$INSTALL_DIR"
-    sudo git clone https://github.com/lyarinet/Caddy-Manager.git "$INSTALL_DIR"
+    sudo git clone https://github.com/lyarinet/caddyserver-manager.git "$INSTALL_DIR"
     sudo chown -R $(whoami):$(whoami) "$INSTALL_DIR"
     cd "$INSTALL_DIR"
     PROJECT_ROOT=$(pwd)
