@@ -21,11 +21,12 @@ sed -i "3s/\"version\": \".*\"/\"version\": \"$VERSION\"/" CaddyServer-backend/p
 # 2. Update Frontend package.json
 sed -i "4s/\"version\": \".*\"/\"version\": \"$VERSION\"/" CaddyServer-frontend/package.json
 
-# 3. Update server.js discovery version
-sed -i "s/version: '.*',/version: '$VERSION',/" CaddyServer-backend/server.js
+# 3. Update server.js discovery and status versions
+sed -i "s/version: '[0-9.]*',/version: '$VERSION',/g" CaddyServer-backend/server.js
 
 # 4. Update App.jsx build version
-sed -i "s/v.* Build/v$VERSION Build/" CaddyServer-frontend/src/App.jsx
+# Specific match for the footer version string to avoid corrupting other lines
+sed -i "s/>v[0-9.]* Build<\/p>/>v$VERSION Build<\/p>/" CaddyServer-frontend/src/App.jsx
 
 echo "✅ File versions updated to v$VERSION."
 
