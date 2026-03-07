@@ -570,7 +570,7 @@ function App() {
                   <a href={globalSettings.github_url} target="_blank" rel="noopener noreferrer" className={clsx("p-2 rounded-full transition-colors", theme === 'manager' || theme === 'flat' ? "hover:bg-[var(--surface-bg)]" : "hover:bg-white/5")}>
                     <Github className={clsx("w-5 h-5", theme === 'manager' || theme === 'flat' ? "text-[var(--muted-text)] hover:text-[var(--base-text)]" : "text-white/40 hover:text-white")} />
                   </a>
-                  <p className={clsx("text-[9px] font-black uppercase tracking-widest", theme === 'manager' || theme === 'flat' ? "text-[var(--muted-text)]" : "text-white/40")}>v2.0.0 Build</p>
+                  <p className={clsx("text-[9px] font-black uppercase tracking-widest", theme === 'manager' || theme === 'flat' ? "text-[v2.0.2 Build</p>
                 </div>
               )}
               <p className={clsx(
@@ -967,10 +967,10 @@ const ModuleExplorer = ({ theme }) => {
         });
       }
 
-      setBuildLog(prev => [...prev, '✅ Build completed! Refreshing in 3 seconds...']);
+      setBuildLog(prev2.0.2 Build completed! Refreshing in 3 seconds...']);
       setTimeout(() => window.location.reload(), 3000);
     } catch (e) {
-      setBuildLog(prev => [...prev, `❌ Build failed: ${e.message}`]);
+      setBuildLog(prev2.0.2 Build failed: ${e.message}`]);
     } finally {
       setBuilding(false);
     }
@@ -1035,7 +1035,7 @@ const ModuleExplorer = ({ theme }) => {
         </div>
       </div>
 
-      {/* Interactive Plugin Builder */}
+      {/* Interactiv2.0.2 Builder */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -1628,7 +1628,7 @@ const Streams = ({ theme }) => {
                       <div className="mb-2">sudo apt install golang-go</div>
                       <div className="opacity-50 mb-2"># 2. Install xcaddy</div>
                       <div className="mb-2">go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest</div>
-                      <div className="opacity-50 mb-2"># 3. Build Caddy with Layer4</div>
+                      <div2.0.2 Build Caddy with Layer4</div>
                       <div className="mb-2">~/go/bin/xcaddy build --with github.com/mholt/caddy-l4</div>
                       <div className="opacity-50 mb-2"># 4. Replace binary</div>
                       <div className="mb-2">sudo mv caddy /usr/bin/caddy</div>
