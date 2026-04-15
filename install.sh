@@ -33,22 +33,33 @@ if [[ "$OS" == "ubuntu" || "$OS" == "debian" ]]; then
     sudo chmod o+r /etc/apt/sources.list.d/caddy-stable.list
     sudo apt update
     INSTALL_CMD="sudo apt-get install -y"
+
+    # 2. Install basic dependencies and build tools
+    echo "🛠 Installing system utilities and build tools..."
+    # Remove old golang-go if it exists to prevent path conflicts
+    sudo apt-get remove -y golang-go || true
+    $INSTALL_CMD curl debian-keyring debian-archive-keyring apt-transport-https build-essential python3 g++ make git bc psmisc
 elif [[ "$OS" == "fedora" || "$OS" == "rhel" || "$OS" == "centos" ]]; then
     sudo dnf check-update || true
     INSTALL_CMD="sudo dnf install -y"
 elif [[ "$OS" == "arch" ]]; then
     sudo pacman -Sy
     INSTALL_CMD="sudo pacman -S --noconfirm"
+elif [[ "$OS" == "alpine" ]]; then
+    apk update
+    INSTALL_CMD="apk add"
+    # Enable community repo for some rc scripts
+    sed -i 's|^#http://dl-cdn.alpinelinux.org/alpine/v3.23/community|http://dl-cdn.alpinelinux.org/alpine/v3.23/community|' /etc/apk/repositories
+    echo "Installing system tools"
+    $INSTALL_CMD curl xcaddy caddy-openrc sudo python3 make git psmisc g++
+    # Adds the official caddy starup script
+    rc-update add caddy
 else
     echo "⚠️ Unknown OS. Defaulting to 'apt-get'. Installation might fail."
     INSTALL_CMD="sudo apt-get install -y"
 fi
 
-# 2. Install basic dependencies and build tools
-echo "🛠 Installing system utilities and build tools..."
-# Remove old golang-go if it exists to prevent path conflicts
-sudo apt-get remove -y golang-go || true
-$INSTALL_CMD curl debian-keyring debian-archive-keyring apt-transport-https build-essential python3 g++ make git bc psmisc
+
 
 # Ensure project files exist (Auto-clone if run via curl | bash)
 if [[ ! -f "entrypoint.sh" || ! -d "CaddyServer-backend" ]]; then
@@ -63,6 +74,11 @@ fi
 
 # 3. Install/Update Go (Ensure >= 1.22)
 install_go() {
+    if [[ $OS=="alpine" ]]; then
+        echo "Skipping GO install, installed with xcaddy"
+        return 0
+    if
+
     echo "🟢 Installing/Updating Go to v1.22.5..."
     GO_VERSION="1.22.5"
     ARCH=$(uname -m)
@@ -103,6 +119,8 @@ if ! command -v node &> /dev/null; then
     if [[ "$OS" == "ubuntu" || "$OS" == "debian" ]]; then
         curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
         sudo apt-get install -y nodejs
+    elif [[ "$OS" == "alpine" ]]; then
+        $INSTALL_CMD nodejs npm
     else
         echo "⚠️ Please install Node.js manually for your distribution ($OS)."
     fi
@@ -132,6 +150,12 @@ fi
 # Build Caddy with Layer4 and all required DNS modules
 echo "🏗 Building Caddy with Layer4 and 15+ DNS modules..."
 # Explicitly pass PATH to ensure xcaddy finds the correct go binary
+if [[ $OS=="alpine" ]]; then
+    # Alpine uses RAM disk for /tmp, this sets the tmp build folder to the current folder.
+    # this is needed to avoid the 'no disk space error'
+    export TMPDIR=$PWD ; export GOCACHE=$PWD/.cache
+fi
+    
 PATH=/usr/local/go/bin:$PATH xcaddy build v2.11.2 \
     --with github.com/mholt/caddy-l4 \
     --with github.com/caddy-dns/cloudns \
@@ -150,10 +174,15 @@ PATH=/usr/local/go/bin:$PATH xcaddy build v2.11.2 \
     --with github.com/caddy-dns/godaddy \
     --with github.com/caddy-dns/acmedns \
     --output ./caddy_custom
-
-sudo chmod +x ./caddy_custom
-sudo mv ./caddy_custom /usr/bin/caddy
-sudo setcap cap_net_bind_service=+ep /usr/bin/caddy
+if [[ $OS=="alpine" ]]; then
+    # Moved here becuse we are using the systems caddy-openrc config
+    chmod +x ./caddy_custom
+    mv ./caddy_custom /usr/sbin/caddy
+else
+    sudo chmod +x ./caddy_custom
+    sudo mv ./caddy_custom /usr/bin/caddy
+    sudo setcap cap_net_bind_service=+ep /usr/bin/caddy
+fi
 echo "✅ Custom Caddy (v2.11.2 with Layer4 & DNS Suite) installed to /usr/bin/caddy"
 
 # 6. Install Project Dependencies
